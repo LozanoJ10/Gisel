@@ -8,6 +8,7 @@ public class CambiarPosicion : MonoBehaviour
 
     public bool esPosInicial;
     public bool esPosFinal;
+    public AudioSource audio_Portal;
 
     public float desplazamientoEnX; // CUANTO A LA IZQUIERDA DEL OBJETO VA A SPAWNEAR. 
 
@@ -32,9 +33,11 @@ public class CambiarPosicion : MonoBehaviour
     {
         if (collision.CompareTag("Jugador"))
         {
+            audio_Portal.Play();
             Vector3 nuevaPosicion = posicionDestino.position;
             nuevaPosicion.x += desplazamientoEnX; // AQUI LE DECIMOS cuantas unidades a la derecha esta de la posicion Final.
             collision.transform.position = nuevaPosicion;
+            
         }
     }
 }

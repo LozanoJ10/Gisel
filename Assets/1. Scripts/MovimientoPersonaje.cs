@@ -3,12 +3,13 @@ using UnityEngine;
 public class MovimientoPersonaje : MonoBehaviour
 {
     public float moveSpeed;
-    public float runSpeedMultiplier = 2f; // Factor de multiplicación para la velocidad de carrera
+    public float runSpeedMultiplier = 2f; // Factor de multiplicaciï¿½n para la velocidad de carrera
     public float jumpForce = 10f;
     public Rigidbody2D rb;
     public Animator animacionPersonaje;
     public float horizontal;
     private bool enSuelo;
+    public AudioSource audio_Salto;
 
     private void Start()
     {
@@ -43,6 +44,7 @@ public class MovimientoPersonaje : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && enSuelo)
         {
             animacionPersonaje.SetBool("Saltando", true);
+            audio_Salto.Play();
             Jump();
         }
         else
