@@ -13,7 +13,7 @@ public class Cambiar_Tamaño : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Jugador") && agrandar)
         {            
-            collision.transform.localScale *= 1.5f;
+            collision.transform.localScale *= 2f;
             Destroy(this.gameObject);
             audio_Item.Play();
         }
@@ -27,7 +27,7 @@ public class Cambiar_Tamaño : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Jugador") && original)
         {
-            collision.transform.localScale = new Vector3(1f,1f,1f);
+            collision.transform.localScale = new Vector3(1.5f,1.5f,1.5f);
             Destroy(this.gameObject);
             audio_Item.Play();
         }
