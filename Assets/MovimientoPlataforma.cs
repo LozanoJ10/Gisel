@@ -18,14 +18,31 @@ public class MovimientoPlataforma : MonoBehaviour
         distanciaEntrePuntos = Vector3.Distance(punto1.position, punto2.position);
     }
 
-    void Update()
+    private void FixedUpdate()
     {
         float tiempoTranscurrido = (Time.time - tiempoInicio) * velocidad;
         float t = Mathf.PingPong(tiempoTranscurrido / distanciaEntrePuntos, 1f);
         transform.position = Vector3.Lerp(punto1.position, punto2.position, t);
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Jugador"))
+        {
+            collision.transform.SetParent(this.transform);
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Jugador"))
+        {
+            collision.transform.SetParent(null);
+        }
+    }
+
+    /*
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Jugador"))
         {
@@ -35,12 +52,12 @@ public class MovimientoPlataforma : MonoBehaviour
     }
 
 
-    void OnCollisionExit2D(Collision2D collision)
+    private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Jugador") && jugador != null)
         {
             jugador.SetParent(null);
             jugador = null;
         }
-    }
+    }*/
 }

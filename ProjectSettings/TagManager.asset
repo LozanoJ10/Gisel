@@ -9,11 +9,12 @@ TagManager:
   - Suelo
   - ContactoPlataforma
   - Plataforma
+  - Camion
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - SueloLayer
   - Water
   - UI
   - 
