@@ -10,11 +10,12 @@ public class MovimientoPersonaje : MonoBehaviour
     public float horizontal;
     private bool enSuelo;
     public AudioSource audio_Salto;
+    public bool enPlataforma;
 
     private void Start()
-    {
-        animacionPersonaje = GetComponent<Animator>();
+    {        
         rb = GetComponent<Rigidbody2D>();
+        animacionPersonaje = GetComponent<Animator>();
     }
 
     void Update()
@@ -40,8 +41,24 @@ public class MovimientoPersonaje : MonoBehaviour
             transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
         }
 
+        /*
+        if (enPlataforma)
+        {         
+            enSuelo = true;
+        }
+        if (!enPlataforma)
+        {            
+            enSuelo = false;
+        }
+        */
 
-        if (Input.GetKeyDown(KeyCode.Space) && enSuelo)
+        if (Input.GetKeyDown(KeyCode.Space) && enPlataforma)
+        {
+            rb.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
+        }       
+
+
+        if (Input.GetKeyDown(KeyCode.Space) && (enSuelo || enPlataforma))
         {
             animacionPersonaje.SetBool("Saltando", true);
             audio_Salto.Play();
@@ -61,7 +78,15 @@ public class MovimientoPersonaje : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Suelo"))
         {
-            enSuelo = true;
+            enSuelo = true;            
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Plataforma"))
+        {
+            enPlataforma = true;
+            Debug.Log("Estoy Colisionando");
         }
     }
 
@@ -71,11 +96,16 @@ public class MovimientoPersonaje : MonoBehaviour
         {
             enSuelo = false;
         }
+
+        if (collision.gameObject.CompareTag("Plataforma"))
+        {
+           enPlataforma = false;
+        }
     }
 
     void Jump()
     {
-        if (enSuelo)
+        if (enSuelo || enPlataforma)
         {            
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }

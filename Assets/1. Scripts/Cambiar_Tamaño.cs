@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Cambiar_Tamaño : MonoBehaviour
 {
@@ -9,27 +8,36 @@ public class Cambiar_Tamaño : MonoBehaviour
     public AudioSource audio_Item;
 
     private void OnTriggerEnter2D(Collider2D collision)
-    {       
-
-        if (collision.gameObject.CompareTag("Jugador") && agrandar)
-        {            
-            collision.transform.localScale *= 2f;
-            Destroy(this.gameObject);
-            audio_Item.Play();
-        }
-
-        if (collision.gameObject.CompareTag("Jugador") && achicar)
+    {
+        if (collision.gameObject.CompareTag("Jugador"))
         {
-            collision.transform.localScale *= 0.2f;
-            Destroy(this.gameObject);
-            audio_Item.Play();
-        }
+            Vector3 escala = collision.transform.localScale;
+            if (agrandar)
+            {                
+                collision.gameObject.transform.position = new Vector3(collision.gameObject.transform.position.x, 
+                    collision.gameObject.transform.position.y+1, collision.gameObject.transform.position.z);
+                escala *= 2f;
+                collision.transform.localScale = escala;
+                Destroy(gameObject);
+                audio_Item.Play();
+            }
 
-        if (collision.gameObject.CompareTag("Jugador") && original)
-        {
-            collision.transform.localScale = new Vector3(1.5f,1.5f,1.5f);
-            Destroy(this.gameObject);
-            audio_Item.Play();
+            if (achicar)
+            {
+                escala *= 0.2f;
+                collision.transform.localScale = escala;
+                Destroy(gameObject);
+                audio_Item.Play();
+            }
+
+            if (original)
+            {
+                collision.transform.localScale = Vector3.one;
+                collision.gameObject.transform.position = new Vector3(collision.gameObject.transform.position.x,
+                    collision.gameObject.transform.position.y + 0.5f, collision.gameObject.transform.position.z);
+                Destroy(gameObject);
+                audio_Item.Play();
+            }
         }
     }
 }
